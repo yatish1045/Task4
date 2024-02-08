@@ -13,24 +13,24 @@ pipeline {
         }
         stage('Code Compile') {
             steps {
-                bat label: 'Compile', script: 'mvn clean compile'
+                sh 'mvn clean compile'
             }
         }
         stage('Unit Tests') {
             steps {
-                bat label: 'Run Tests', script: 'mvn test'
+                sh 'mvn test'
             }
         }
        
         stage('OWASP SCAN') {
             steps {
-                dependencyCheck additionalArguments: ' --scan ./ ', odcInstallation: 'DP-Check'
-                dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
+                sh 'dependency-check --scan ./'
+                junit 'dependency-check-report.xml'
             }
         }
         stage('Build Artifact') {
             steps {
-                bat label: 'Build Artifact', script: 'mvn clean install'
+                sh 'mvn clean install'
             }
         }
     }

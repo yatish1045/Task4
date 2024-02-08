@@ -22,16 +22,7 @@ pipeline {
             }
         }
        
-        stage('OWASP SCAN') {
-            steps {
-                sh 'dependency-check --scan ./'
-                junit 'dependency-check-report.xml'
+        
             }
         }
-        stage('Build Artifact') {
-            steps {
-                sh 'mvn clean install'
-            }
-        }
-    }
-}
+
